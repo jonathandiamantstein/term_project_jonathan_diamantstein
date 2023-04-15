@@ -1,74 +1,52 @@
-# Term project outline
+Bike Connectivity Project read.me
+First Part: Dowloading Packages and Required Data
 
-This document contains instructions and guidelines for carrying out your final term project. Use it as an opportunity to explore what interests you, within the constraints outlined below:
+from donee montreal download comptage.csv data, REV.geojson data, Bike network data, bixi.geojson data
 
-## Proposal
+as well import these packages; import requests, import geopandas as gpd, import pandas as pd , import json, import folium, from shapely.geometry import LineString, and from shapely.geometry import Point
 
-You must **submit a 200-300 word proposal** that describes what project type and topic you plan on exploring, and where you intend to source your data from (if applicable). It should be written up in a markdown file containing relevant formatting and any relevant references, links, media and attachments.
+Second Part: Summing reqruied Bike counter data
 
-## Project: Choose your adventure
+The conversation started with a question about how to sum column values from a CSV file named Bike_counts.csv and add them to a new dataset with the column IDs as headers. The solution involved using the pandas library to read the CSV file, summing the columns individually, creating a new dataframe with the sums as column values and column IDs as headers, and saving the new dataframe as a CSV file.
 
-### :bulb: Researcher
+The next question was about removing the compteur_ prefix from the IDs in the dataset. The solution was to use the str method to remove the prefix from the column names.
 
-Choose this if you have a keen and critical curiosity for the social and environmental processes around you, you don't mind exploring data through commands, and you like the prospect of doing research/investigations that are precise, reproducible and free of untraceable human error (i.e. using computational research techniques, some of which have been or will be seen in this class). You like data engineering, analysis and visualization, and would like to explore it some more.
+The conversation then shifted to merging the df dataset and bike_count_location together based on the "ID" column and creating a geometry field out of the "x" and "y" columns. The solution involved using the pandas and geopandas libraries to read in the datasets, merging them based on the "ID" column, and creating a GeoDataFrame with a Point geometry column from the "x" and "y" columns.
 
-- Deliverable: A computational essay that carries the reader through an analysis by mixing prose, code, and computational results. The essay and related materials (input data, etc.) are to be published in a Github repository that can be set to either public or private. The guidelines and constraints are as follows:
-  -	The choice of topic is up to you.
-  -	Your study area should be limited to or somewhere within the island of Montreal. If you would prefer a different study area, please verify with an instructor in order to ensure data availability.
-  -	Minimum 750, maximum 1000 words (excluding bibliography) in English or French.
-  -	You must cite at least 3 papers related to the topic you have chosen. At least one of these papers must specifically relate to methodologies that can inform your work.
-  -	Depending on your strengths, you can engage with your data through the lens of exploratory data analysis (i.e. using mostly visualization and descriptive summary statistics), or - if you are more statistically inclined - delve deeper by engaging with more advanced quantitative research methods (clustering, etc. using spatial statistics methods made available by libraries such as PySal, or more generic libraries like scipy, machine-learning algorithms provided by scikit-learn, or nltk for those interested in text data, etc.).
-  -	The data you use is up to you. You can use the population data seen in this class, but if you do so, you **must join at least one other field** of information to it for integration into your analysis (recall the census analyzer explored in class). You may also integrate another data set, in addition to the population data.
-  - Your code notebook must be published online in an interactive session using [NBViewer](https://nbviewer.org/), [MyBinder](https://mybinder.org/), [Voilà](https://voila-gallery.org/) \[[1](https://voila.readthedocs.io/en/stable/using.html), [2](https://voila.readthedocs.io/en/stable/deploy.html#deployment-on-binder)\], or [Streamlit](https://streamlit.io/cloud). This is so that readers can interactively engage with your code and thought process.
-  - Your code notebook must be accompanied by a README.md file that *briefly* introduces your project and points the reader to how to engage with your code notebook material (how to download/deploy, how to run).
+The next question was about mapping the Montreal bike paths instead of the Bixi stations. The solution involved reading in the Montreal bike paths from a GeoJSON file using the geopandas library and adding them to a Folium map object along with the bike count locations from the merged dataset.
 
-### :wrench: Python Programmer
+The next task was to create a function that creates new bike paths based on proximity to high "sums" in the merged dataset. The solution involved using the geopandas library to create a buffer around the bike count locations and finding the bike paths that intersected with the buffer. The new bike paths were then created by connecting the bike paths that were close in proximity but not intersecting, and the bike paths that were connected by high bike counters from the merged dataset.
 
-Choose this path if you are excited by tool building and the prospect of sharing ready-made functionality with your future self and others, if you enjoy programming, if you are repelled by redundancy and love making things efficient, modular and useful, if you understand (or plan on understanding) functions well and if you can write articulate and efficient technical documentation and instructions that are accessible to a wide audience.
+Finally, there was a question about converting a gdf.csv file into a GeoJSON file. The solution involved using the pandas and geopandas libraries to read in the CSV file, create a GeoDataFrame with a Point geometry column from the longitude and latitude columns, and saving the GeoDataFrame as a GeoJSON file using the to_file method.
 
-- Deliverable: A library of GIS and mapping tools with attached documentation. Guidelines and constraints are as follows:
-  - Your tasks involve creating a series of tools which you can easily source from for performing data wrangling, GIS, visualization and geospatial data exploration tasks.
-  - Your library must be coherent, and make sense as a package (i.e. do not simply cobble together random functions). 
-  - Your code must be accessible via function calls and organized inside a module or series of modules that can be easily imported by a programmer.
-  -	You must create at minimum 10 separate functions that do not depend on each other (obviously you can have as many dependent or nested functions as you like). You cannot simply package existing methods (e.g. a pandas method) inside your own function and call it a day.
-  - Your functions must be clear about what kind of data they require as inputs and what they are returning (see [type hints](https://docs.python.org/3/library/typing.html)). They should be able to accomodate a wide range of input scenarios, and contain proper [error handling](https://docs.python.org/3/tutorial/errors.html#handling-exceptions) where relevant.
-  - At least one of your functions must be a **geovisualization function**. If generating static maps, they must have all necessary map elements (auto-generated titles, scalebar, etc.). Your viz function must be able to receive geodata of **any extent or scale**.
-  -	You must demonstrate relevant use of for loops, conditional statements, and positional and keyword arguments.
-  -	Your scripts must be published as a public Github repository that contains a README.md file utilizing relevant markdown notation explaining, in sufficient detail and using accessible language (English or multilingual), how to set up and use your code, each function and its required and/or optional parameters (positional/keyword arguments), with links to any relevant external documentation.
-    - You may use Github’s Wiki feature if you think the documentation required is complex enough or requires organization into separate pages, but this is not necessary in most cases.
-    - You should also fill out all relevant repository fields to make your code as accessible as possible (tags, *about* panel, etc.)
+Third Part: finding Highest Bike Counter Stations
 
-### :mag_right: Data Curator
+We then load the data from a CSV file named 'gdf.csv' using the read_csv() function of pandas.
 
-Choose this path if you are excited about open data, you are organized and archival, you are investigative, logically consistent, and you like the thought of publishing a public data repository that could be of use to researchers, journalists, students and other engaged citizens.
-- Deliverable: a repository containing a collection of spatial data layers containing all relevant metadata and previewed in an interactive atlas. The following conditions apply:
-  - You can choose one of the following to delimit your data investigation:
-    - A **single area** (*excluding* the island of Montreal) to collect minimum 10 different geodata layers on. The reason for which you are collecting data for a given area must be justified (i.e. you must demonstrate that there is not already a data portal or source that aggregates such data in such a way). Consider areas (administrative units or areas of interest) for which intel is sparse.
-    - A **single theme**. In this scenario, the goal is to construct a coherent database that covers a large extent or series of related extents (i.e. all major cities in X country). In this scenario, the goal will likely involve data concatenation (combining datasets to create a new dataset or series of datasets that are internally consistent). Like the first option, you must demonstrate that such a dataset does not already exist or is not publicly available.
-  -	Note that the value added in this project scenario could involve wrangling a dataset to make it usable (applying a relevant classification scheme, etc.)
-  -	Your data could be raster, vector, classified satellite imagery, georeferenced data tables, etc. It must be geographic data that is published in an immediately usable form. Your public should be able to easily use your data and know what to expect from it.
-  -	If you needed to process data you found in any way, you must demonstrate you did this by sharing your code, either from inside a Python notebook or in Python scripts. While your public may not run this code, it provides a form of data lineage/documentation for what was done to it. It can also be useful in cases where such datasets need to be processed again (e.g. when new versions are published). Your code must work, and be organized and documented.
-  -	You must publish a metadata file for each data set/layer. This metadata must be a visible part of your web atlas. Your metadata should include at least the following wherever applicable:
-    -	*summary/description; spatial data type; source/source url(s); date collected; date published; an explanation of each attribute; extent; spatial resolution; coordinate system; projection (if projected); use limitations/license.*
-  -	Your data should be published in a Github repository that contains a README.md file utilizing relevant markdown notation *briefly* explaining the premise of your data curation project, a rationale for why it is necessary, a description of the data contained, etc.
-  - Your website should be published and available publicly online. There are many ways of doing this: You could host it in an *index.html* file in your repository, (which should then be [published as a Github Page](https://geog-464.github.io/github-page-howto.html)); or it could be hosted in a Jupyter notebook and published using one of the tools described under *Researcher*.
+Next, we group the data by the 'Nom' column using the groupby() function of pandas. The groupby() function groups the rows of the data frame based on the unique values in the specified column, in this case, the 'Nom' column.
 
-## Grading
+After grouping the data by 'Nom', we sum the values in the 'sums' column using the sum() function of pandas.
 
-- *Proposal (5%)*. submitted via your `term-project` repository by **March 15, 2023 at 14:45**
-- *Project (95%)*, **your own personal, public repository or webpage** to be submitted as a link via Moodle by **April 14** at end of day. Consider the following evaluation criteria:
-  - Code:
-    - Your code runs as intended, and produces the intended output.
-    - Where relevant, your code applies techniques and principles taught to you in this course.
-  - Written work:
-    - Your prose or documentation is clearly written and extensive.
-    - The written work uses proper formatting and does so to improve clarity.
-    - The documentation clearly explains your project's rationale.
-    - Research is properly integrated and cited to back your project's purpose and rationale.
-    - The documentation clearly explains your code's logic.
-    - Where relevant, your documentation guides the user in reading, understanding and using your code.
-    - Third-party code or data used are properly cited.
-  - Git:
-    - Your work has a git version history that highlights its progress (enhancements, bug fixes, etc.).
-    - Your work is published in a way that is accessible to your intended audience.
-    - Your repository is properly tagged and identifiable on Github.
+We then sort the grouped data in descending order based on the sum of 'sums' column using the sort_values() function of pandas. The sort_values() function sorts the data frame in ascending or descending order based on the values of the specified column.
+
+Finally, we select the top 5 results using the head() function of pandas and print them using the print() function of Python.
+
+In summary, the first method involves grouping the data by 'Nom', summing the values in the 'sums' column for each group, sorting the grouped data in descending order based on the sum of 'sums' column, selecting the top 5 results, and printing them.
+
+Fourth: Mapping data
+
+3 maps are created, the first being summed bike count data with exisitng infrastructure, the second is rev infrastructure and summed bike count data, and the third is bixi data and exisitng bike networks.
+
+Fifth Part: Building tool
+
+the goal was to create a function that fills in gaps between bike paths in close proximity to one another, and then display the result in a folium map. The fill_bike_path_gaps function was created for this purpose, which takes three parameters: the filename of the bike paths to be filled, a buffer distance to create a buffer around each bike path, and a tolerance value to simplify the buffer polygon.
+
+The function first reads in the bike paths from the specified file using the geopandas.read_file() method. It then creates a buffer around each bike path using the buffer() method with the specified buffer distance, and dissolves the resulting polygons into a single MultiPolygon using the unary_union() method. The dissolved buffer is then simplified using the simplify() method with the specified tolerance value.
+
+Next, the function explodes the simplified buffer into its constituent polygons using the explode() method, and then applies the interiors property to each polygon to get the interior rings. It then creates a new Polygon using the exterior property of the first polygon and the interior rings of the remaining polygons, and adds it to a list of polygons.
+
+Finally, the function creates a new GeoDataFrame from the list of polygons, with a single row containing the new bike path geometry. The resulting GeoDataFrame is returned by the function.
+
+To display the new bike path in a folium map, the function is called with the desired parameters, and the resulting GeoDataFrame is used to create a Folium GeoJSON layer, which is added to a new folium map centered on Montreal.
+
+unfortunetly the function didnt work but i tried...
