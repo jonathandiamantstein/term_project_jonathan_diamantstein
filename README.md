@@ -1,9 +1,11 @@
-Bike Connectivity Project read.me
-First Part: Dowloading Packages and Required Data
+# Bike Connectivity Project read.me
 
-from donee montreal download comptage.csv data, REV.geojson data, Bike network data, bixi.geojson data
+First Part: Dowloading Packages and Required Data 
+
+from donee montreal download comptage.csv data, REV.geojson data, Bike network data, bixi.geojson data 
 
 as well import these packages; import requests, import geopandas as gpd, import pandas as pd , import json, import folium, from shapely.geometry import LineString, and from shapely.geometry import Point
+
 
 Second Part: Summing reqruied Bike counter data
 
@@ -33,11 +35,11 @@ Finally, we select the top 5 results using the head() function of pandas and pri
 
 In summary, the first method involves grouping the data by 'Nom', summing the values in the 'sums' column for each group, sorting the grouped data in descending order based on the sum of 'sums' column, selecting the top 5 results, and printing them.
 
-Fourth: Mapping data
+Fourth: Mapping data 
 
-3 maps are created, the first being summed bike count data with exisitng infrastructure, the second is rev infrastructure and summed bike count data, and the third is bixi data and exisitng bike networks.
+3 maps are created, the first being summed bike count data with exisitng infrastructure, the second is rev infrastructure and summed bike count data, and the third is bixi data and exisitng bike networks. 
 
-Fifth Part: Building tool
+Fifth Part: Building tool 
 
 the goal was to create a function that fills in gaps between bike paths in close proximity to one another, and then display the result in a folium map. The fill_bike_path_gaps function was created for this purpose, which takes three parameters: the filename of the bike paths to be filled, a buffer distance to create a buffer around each bike path, and a tolerance value to simplify the buffer polygon.
 
@@ -49,4 +51,5 @@ Finally, the function creates a new GeoDataFrame from the list of polygons, with
 
 To display the new bike path in a folium map, the function is called with the desired parameters, and the resulting GeoDataFrame is used to create a Folium GeoJSON layer, which is added to a new folium map centered on Montreal.
 
-unfortunetly the function didnt work but i tried...
+~unfortunetly the function didnt work~ but i tried...
+
